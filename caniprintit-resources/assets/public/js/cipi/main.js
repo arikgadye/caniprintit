@@ -1,15 +1,15 @@
-define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printanalyzer/AspectRatio', 'vow', 'filereader/getImageDimensions', 'view/switchView'], function($, bacon, bjq, findBestAR, AspectRatio, vow, getImageDimensions, view) {	
+define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printanalyzer/AspectRatio', 'vow', 'filereader/getImageDimensions', 'view/switchView'], function($, bacon, bjq, findBestAR, AspectRatio, vow, getImageDimensions, switchView) {	
 	$(document).ready(function() {
 		// create an array of the top three print sizes; starting from good, okay, then bad. 
 		function getThreeSizes(sizes) {
 			var printSizes = [];
 			var i = 0;
 			while (i < 3) {
-				if (sizes["good"].length > 0) {printSizes.push({'good': sizes['good'].pop()}); i++}
-				if (sizes["okay"].length > 0) {printSizes.push({'okay': sizes['okay'].pop()}); i++}
-				if (sizes["bad"].length > 0)  {printSizes.push({'bad':  sizes['bad'].pop()}); i++}
+				if (sizes["good"].length > 0) {printSizes.push({'printStatus': 'good', 'size': sizes['good'].pop()}); i++}
+				if (sizes["okay"].length > 0) {printSizes.push({'printStatus': 'okay', 'size': sizes['okay'].pop()}); i++}
+				if (sizes["bad"].length > 0)  {printSizes.push({'printStatus': 'bad',  'size': sizes['bad'].pop()}); i++}
 			}
-			console.log(printSizes)
+			switchView(printSizes)();
 		}
 		function getImageSizes(val) {
 			return new vow.Promise(function(resolve, reject){
