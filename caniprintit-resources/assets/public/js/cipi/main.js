@@ -1,6 +1,6 @@
 define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printanalyzer/AspectRatio',
-    'vow', 'filereader/getImageDimensions', 'cipi/selectSizes', 'view/showView'],
-    function($, Bacon, bjq, findBestAR, AspectRatio, vow, getImageDimensions, selectSizes, view) {
+    'vow', 'filereader/getImageDimensions', 'cipi/selectSizes', 'view/showView', 'cipi/mobileDetector'],
+    function($, Bacon, bjq, findBestAR, AspectRatio, vow, getImageDimensions, selectSizes, view, isMobile) {
 
     function formatCrop(crop) {
         return (undefined === crop || isNaN(crop)) ? '--' : (crop * 100).toFixed(1) + "%";
