@@ -9,5 +9,6 @@ class CipiConfig {
     String google
 	String keenWriteKey
 	String keenProjectKey
+	String fbAppID
     boolean suppressShares
 }
