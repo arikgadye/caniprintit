@@ -7,16 +7,44 @@ define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printana
     }
 
     $(document).ready(function() {
-        
+        var showImageInfo = false;
+        var info = $('#viewInfo').clickE();
+        var infoShowing = false;
+        info.onValue(function(e) {
+            e.preventDefault();
+            if (infoShowing) {
+                $('.info').slideUp('fast');
+                $('#viewInfo').text('Show Image Info')
+                infoShowing = false;
+            } else {
+                $('#viewInfo').text('Hide Image Info')
+                $('.info').slideDown('fast');
+                infoShowing = true;
+            }
+        })
+        var form = $('#showForm').clickE();
+        var formShowing = false;
+        form.onValue(function() {
+            if (formShowing) {
+                $('form').fadeOut();
+                formShowing = false;
+            } else {
+                $('form').fadeIn();
+                formShowing = true;
+            }
+        })
         $('.faq').click(function() {
-            $('.content').hide();
+            $('.content').fadeOut('slow');
             $('#faq').fadeIn();
         });
         $('#faq').click(function() {
             $('.content').show();
             $('#faq').fadeOut();
         });
-
+        $('.template-modal').click(function() {
+            $('.template').fadeOut();
+            $('.template-modal').fadeOut();
+        })
         // form field Models and their values mapped as integers
         var widthField = bjq.textFieldValue($('#widthInput'), "");
         var width = widthField.changes().map(parseInt).debounce(300).skipDuplicates();
