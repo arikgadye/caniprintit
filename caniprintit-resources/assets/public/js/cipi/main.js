@@ -1,12 +1,13 @@
 define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printanalyzer/AspectRatio',
-    'vow', 'filereader/getImageDimensions', 'cipi/selectSizes', 'view/showView', 'cipi/mobileDetector'],
-    function($, Bacon, bjq, findBestAR, AspectRatio, vow, getImageDimensions, selectSizes, view, isMobile) {
+    'vow', 'filereader/getImageDimensions', 'cipi/selectSizes', 'view/showView', 'cipi/mobileDetector', 'cipi/keenImageObject'],
+    function($, Bacon, bjq, findBestAR, AspectRatio, vow, getImageDimensions, selectSizes, view, isMobile, keenImageObject) {
 
     function formatCrop(crop) {
         return (undefined === crop || isNaN(crop)) ? '--' : (crop * 100).toFixed(1) + "%";
     }
 
     $(document).ready(function() {
+        var keenObj = {}
         var showImageInfo = false;
         var info = $('#viewInfo').clickE();
         var infoShowing = false;
@@ -48,15 +49,17 @@ define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printana
         // form field Models and their values mapped as integers
         var widthField = bjq.textFieldValue($('#widthInput'), "");
         var width = widthField.changes().map(parseInt).debounce(300).skipDuplicates();
-
         var heightField = bjq.textFieldValue($('#heightInput'), "");
         var height = heightField.changes().map(parseInt).debounce(300).skipDuplicates();
-
         // update the dimensions atomically when setting from a file input
         var dimensions = Bacon.combineTemplate({ width: width, height: height }).debounce(10);
-
+        dimensions.onValue(function(val) {
+            keenObj.dimensions = val;
+        });
         var inputFile = $('#fileInput').changeE().map('.target.files.0');
-
+        inputFile.onValue(function(val) {
+            keenObj.imageName = val.name;
+        });
         // stream to reset the filename field on manual entry
         var nameReset = Bacon.mergeAll(
                 $('#widthInput').focusinE(),
@@ -76,6 +79,7 @@ define(['jquery', 'bacon', 'bacon.jquery', 'printanalyzer/findBestAR', 'printana
         // selectSizes call to stop firing with stale data
         var bestAR = dimensions.map(function(dim) { return findBestAR(dim.width, dim.height); });
         bestAR.onValue(function(ar) {
+            keenImageObject(keenObj.dimensions.height, keenObj.dimensions.width, keenObj.imageName, isMobile(), navigator.userAgent);
             if(ar === null) {
                 view.showBadImageError();
             }
