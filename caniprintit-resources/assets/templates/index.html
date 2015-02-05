@@ -23,6 +23,10 @@
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://caniprint.it&amp;title=See if your art images are print-ready!"><i class="fa fa-facebook social-icon"></i></a>
                     <a href="https://twitter.com/intent/tweet?status=See if your art images are print-ready! + https://caniprint.it"><i class="fa fa-twitter social-icon"></i></a>
                 </span>
+                <div class="back">
+                    <button class='btn'>Try another image</button>
+                </div>
+                
                 <span class="faq pull-right">
                     <a href="#">FAQ</a>
                 </span>
@@ -30,31 +34,30 @@
         </div>
 
         <div class="content">
-            <div class="upload-images container">
+            <div class="loader">
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+            </div>
+            <div class="upload-images container animated">
                 <div class="row">
                     <div class="col-sm-12 text-center as-title">
                         <h1>Can I Print It?</h1>
-                        <p>Instantly see if your images are ready for print. It's free!</p>
+                        <h4>Instantly see if your images are ready for print. It's free!</h4>
                     </div>
                 </div>
                 <div class='row upload-fields'>
-                    <div class="col-xs-12 col-sm-6 col-lg-4 col-lg-offset-2">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
                         <div class="upload text-center">
-                            <img src="https://s3-us-west-2.amazonaws.com/asq-tmp-dev/landscape.svg" class='landscape' width='80' />
+                            <img src="https://s3-us-west-2.amazonaws.com/asq-tmp-dev/landscape.svg" class='landscape' width='60' />
                             <div class="upload-title">Drop your image or click here.</div>
                             <input type="file" accept="image/*" id='fileInput' />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+                        <a href="#" id='showForm'>Or, input dimensions manually</a>
                         <form class="form-horizontal">
                             <input type="hidden" name="goodDPI" value='150' />
                             <input type="hidden" name="okayDPI" value='120' />
-                            <div class="form-group">
-                                <label for="filename" class="col-sm-4 control-label">file name</label>
-                                <div class="col-sm-8">
-                                    <p class='form-control-static input-group' id='filename'>--</p>
-                                </div>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="width" class="col-sm-4 control-label">width</label>
                                 <div class="col-sm-8 input-group">
@@ -69,16 +72,8 @@
                                     <span class="input-group-addon">px</span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">crop needed</label>
-                                <div class="col-sm-8">
-                                    <p class='form-control-static input-group' id='cropAmount'>--</p>
-                                </div>
-                            </div>
+                            
                         </form>
-                    </div>
-                    <div class="loader text-center col-xs-4 col-xs-offset-4">
-                        <span>Analyzing your image</span><span id='wait'></span>
                     </div>
                 </div>
             </div>
@@ -86,24 +81,6 @@
             <div class="row">
                 <div class="col-xs-12 badImageError text-center">
                     <span>Oops! This image isn't close to a standard aspect ratio.</span>
-                </div>
-            </div>
-
-            <div class="template container animated fadeIn">
-                <div class="text-center row">
-                    <div class="col-xs-12">
-                        <div class="print-sizes">
-                            <div class="col-sm-4 col-xs-12" id='result-div-0'></div>
-                            <div class="col-sm-4 col-xs-12" id='result-div-1'></div>
-                            <div class="col-sm-4 col-xs-12" id='result-div-2'></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="action col-xs-12 text-center">
-                        <h3><b>Want better prints of your art?</b></h3>
-                        <a href="https://www.artsquare.com"><button class='btn btn-lg btn-default as-action'>Get High-Res Images!</button></a>
-                    </div>
                 </div>
             </div>
 
@@ -117,6 +94,58 @@
                 </div>
             </footer>
         </div>
+
+        <div class="template container">
+            <div class="text-center row">
+                <div class="col-xs-12">
+                    <h2>Possible Print Sizes</h2>
+                </div>
+            </div>
+                <div class="text-center row">
+                    <div class="col-xs-12">
+                        <div class="print-sizes">
+                        <div class="col-xs-12 col-sm-4" id='result-div-0'></div>
+                        <div class="col-xs-12 col-sm-4" id='result-div-1'></div>
+                        <div class="col-xs-12 col-sm-4" id='result-div-2'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-xs-4 col-xs-offset-4 text-center">
+                    <a href="#" id='viewInfo'>Show Image Info</a>
+                    </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-4 info">
+                        <div class="text-center">
+                            <div>Filename: <span id='filename'></span></div>
+                            <div>Width: <span class='width'></span>px</div>
+                            <div>Height: <span class='height'></span>px</div>
+                            <div>Crop Needed: <span id='cropAmount'></span></div>
+                </div>
+            </div>
+                </div>
+                <div class="action col-xs-12 text-center">
+                    <h3><b>Want better prints of your art?</b></h3>
+                    <a href="https://www.artsquare.com"><button class='btn btn-lg btn-default as-action'>Get High-Res Images <i class="fa fa-chevron-right"></i></button></a>
+                    <br />
+                    <b>Or</b>
+                    <br />
+                    <a href="">Try another image</a>
+                </div>
+                <div class="col-xs-12 text-center">
+                    <br />
+                    <p>Share this tool with your friends -- they'll love you for it!</p>
+                    <span class="social" id='fragment-social-shares'>
+                        <div class="fb-share-button" data-href="https://caniprint.it" data-layout="button" data-count="none"></div>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://caniprint.it" data-size="small" data-count="none">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    </span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="template-modal">
+        <div class="ex"><i class="fa fa-times"></i></div>
     </div>
     <div id="faq">
         <div class="ex"><i class="fa fa-times"></i></div>
@@ -126,17 +155,20 @@
                     <h1>ArtSquare</h1>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <h2>About ArtSquare</h2>
                     <p>ArtSquare is a service that helps artists get their artwork from canvas to
                         the Web by connecting them with digitizers in their area. We want artists
                         to get their work out into the world, and we're here to make that process
-                        as easy as possible.</p>
+                        as easy as possible.
+                    </p>
                     <h2>Why 'Can I Print It?'</h2>
                     <p>Artists need high-quality images to assure high-quality prints. We've built
                         this tool to help identify whether your existing images are high enough
-                        resolution to print.</p>
+                        resolution to print.
+                    </p>
                 </div>
             </div>
         </div>
@@ -158,6 +190,9 @@
     }(document, 'script', 'facebook-jssdk'));
     // ]]>
     </script>
+<script data-th-if="${beans.cipiConfig.keen}" data-th-inline="javascript">
+    
+</script>
     <script data-th-if="${beans.cipiConfig.google}" data-th-inline="javascript">
     // <![CDATA[
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
